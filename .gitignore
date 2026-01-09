@@ -1,0 +1,17 @@
+# State files (local to each user)
+.claude/wave-state.local.md
+.claude/wave-outputs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Backup files from patching
+*.backup.*

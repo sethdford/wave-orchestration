@@ -1,0 +1,10 @@
+{
+  "name": "wave-orchestration",
+  "version": "1.0.0",
+  "description": "Iterative parallel orchestration combining Ralph Loop iteration with swarm agent parallelism. Spawns waves of agents, synthesizes results, and iterates until completion.",
+  "author": {
+    "name": "Wave Orchestration",
+    "email": "support@anthropic.com"
+  },
+  "keywords": ["orchestration", "agents", "parallel", "iteration", "ralph", "swarm"]
+}
