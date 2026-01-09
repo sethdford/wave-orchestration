@@ -22,10 +22,16 @@ Combines Ralph Loop (persistent iteration) with swarm parallelism (multiple agen
 ## Installation
 
 ```bash
-# From GitHub
-/plugin install gh:sethdford/wave-orchestration
+# Step 1: Add the marketplace
+/plugin marketplace add sethdford/wave-orchestration
 
-# Or clone and install locally
+# Step 2: Install the plugin
+/plugin install wave-orchestration@wave-orchestration
+```
+
+### Alternative: Local Installation
+
+```bash
 git clone https://github.com/sethdford/wave-orchestration.git ~/wave-orchestration
 /plugin install ~/wave-orchestration
 ```
