@@ -76,24 +76,108 @@ git clone https://github.com/sethdford/wave-orchestration.git ~/wave-orchestrati
 
 ## How It Works
 
-1. **You invoke `/wave-orchestration:wave`** with a goal
-2. **Setup script** creates state file and output directory
-3. **Orchestrator** decomposes goal into parallel tasks
-4. **Agents spawn** in background, work simultaneously
-5. **When you try to exit**, Stop hook intercepts
-6. **Hook feeds prompt back** for next iteration
-7. **Orchestrator sees** previous agent outputs, continues
-8. **Loop repeats** until completion criteria met
+### The Complete Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  /wave-orchestration:wave "Build a REST API"                    │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  setup-wave.sh                                                  │
+│  ├── Creates .claude/wave-state.local.md (iteration: 1)        │
+│  └── Creates .claude/wave-outputs/ directory                    │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  Claude becomes the Orchestrator                                │
+│  ├── Reads state file                                           │
+│  ├── Decomposes goal into parallel tasks                        │
+│  └── Spawns background agents via Task tool                     │
+│       ├── Agent A: "Explore codebase" → wave-outputs/explore.md │
+│       ├── Agent B: "Design schema" → wave-outputs/schema.md     │
+│       └── Agent C: "Setup project" → wave-outputs/setup.md      │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  Claude tries to exit/complete                                  │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  stop-hook.sh intercepts                                        │
+│  ├── Checks for <wave-complete>DONE</wave-complete>             │
+│  ├── If NOT complete → increment iteration, feed prompt back    │
+│  └── If complete → allow exit, cleanup                          │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+              ┌───────────────┴───────────────┐
+              ▼                               ▼
+┌──────────────────────────┐    ┌──────────────────────────┐
+│  Not Complete            │    │  Complete                │
+│  ├── iteration++         │    │  ├── Remove state file   │
+│  └── Loop continues...   │    │  └── Exit successfully   │
+└──────────────────────────┘    └──────────────────────────┘
+```
+
+### Step-by-Step
+
+1. **Preflight Check** (`/wave-orchestration:wave-preflight`)
+   - Verifies `jq` and `perl` are installed
+   - Checks `.claude/` directory is writable
+   - Confirms no active wave is running
+
+2. **Initialization** (`/wave-orchestration:wave "goal"`)
+   - `setup-wave.sh` creates state file with iteration=1
+   - Creates empty `.claude/wave-outputs/` directory
+   - Loads orchestrator prompt
+
+3. **Wave N Execution**
+   - Orchestrator reads state and previous outputs
+   - Decomposes remaining work into parallel tasks
+   - Spawns agents with `run_in_background=True`
+   - Agents write results to `.claude/wave-outputs/`
+
+4. **Iteration Loop**
+   - Stop hook checks for completion marker
+   - If not complete: increments iteration, continues
+   - If complete: cleans up and exits
+
+5. **Completion**
+   - Orchestrator outputs `<wave-complete>DONE</wave-complete>`
+   - Stop hook allows exit
+   - Results remain in `.claude/wave-outputs/`
 
 ## State Files
 
 ```
 .claude/
-├── wave-state.local.md     # Iteration counter, config, prompt
-└── wave-outputs/           # Agent results
+├── wave-state.local.md     # Iteration counter, config, status
+└── wave-outputs/           # Agent results (persisted)
     ├── explore-codebase.md
     ├── implement-feature.md
     └── test-results.md
+```
+
+### State File Format
+
+```yaml
+---
+iteration: 3
+goal: "Build a REST API with auth"
+max_iterations: 20
+completion_promise: DONE
+status: active
+started_at: 2024-01-15T10:30:00
+---
+
+## Progress
+- Wave 1: Explored codebase, designed schema
+- Wave 2: Implemented auth routes, user model
+- Wave 3: Writing tests...
 ```
 
 ## Completion
