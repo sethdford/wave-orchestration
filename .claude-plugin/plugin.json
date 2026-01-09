@@ -1,19 +1,8 @@
 {
   "name": "wave-orchestration",
-  "version": "1.0.0",
   "description": "Iterative parallel orchestration combining Ralph Loop iteration with swarm agent parallelism. Spawns waves of agents, synthesizes results, and iterates until completion.",
   "author": {
     "name": "Seth Ford",
     "email": "seth@example.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sethdford/wave-orchestration"
-  },
-  "homepage": "https://github.com/sethdford/wave-orchestration#readme",
-  "license": "MIT",
-  "keywords": ["orchestration", "agents", "parallel", "iteration", "ralph", "swarm", "claude-code", "plugin"],
-  "engines": {
-    "claude-code": ">=1.0.0"
   }
 }
