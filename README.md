@@ -40,34 +40,34 @@ git clone https://github.com/sethdford/wave-orchestration.git ~/wave-orchestrati
 
 ```bash
 # Check environment is ready
-/wave-preflight
+/wave-orchestration:wave-preflight
 
 # Start wave orchestration with a goal
-/wave "Build a REST API with user auth, CRUD endpoints, and tests" --max-iterations 15
+/wave-orchestration:wave "Build a REST API with user auth, CRUD endpoints, and tests" --max-iterations 15
 
 # Check status
-/wave-status
+/wave-orchestration:wave-status
 
 # Cancel if needed
-/cancel-wave
+/wave-orchestration:cancel-wave
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/wave "goal"` | Start wave orchestration |
-| `/wave-status` | Check current iteration and progress |
-| `/cancel-wave` | Stop the orchestration loop |
-| `/cancel-wave --clean` | Stop and clean up output files |
-| `/wave-preflight` | Verify environment is ready |
-| `/wave-clean` | Remove wave output files |
-| `/wave-help` | Show help and usage |
+| `/wave-orchestration:wave "goal"` | Start wave orchestration |
+| `/wave-orchestration:wave-status` | Check current iteration and progress |
+| `/wave-orchestration:cancel-wave` | Stop the orchestration loop |
+| `/wave-orchestration:cancel-wave --clean` | Stop and clean up output files |
+| `/wave-orchestration:wave-preflight` | Verify environment is ready |
+| `/wave-orchestration:wave-clean` | Remove wave output files |
+| `/wave-orchestration:wave-help` | Show help and usage |
 
-### /wave Options
+### Options
 
 ```bash
-/wave "goal" [--max-iterations N] [--completion-promise TEXT] [--clean]
+/wave-orchestration:wave "goal" [--max-iterations N] [--completion-promise TEXT] [--clean]
 ```
 
 - `--max-iterations N` — Stop after N iterations (default: 20)
@@ -76,7 +76,7 @@ git clone https://github.com/sethdford/wave-orchestration.git ~/wave-orchestrati
 
 ## How It Works
 
-1. **You invoke `/wave`** with a goal
+1. **You invoke `/wave-orchestration:wave`** with a goal
 2. **Setup script** creates state file and output directory
 3. **Orchestrator** decomposes goal into parallel tasks
 4. **Agents spawn** in background, work simultaneously
@@ -115,7 +115,7 @@ All tests passing, implementation complete.
 1. Approve Write, Edit, and Bash tools in your session first
 2. Or run Claude Code with: `claude --dangerously-skip-permissions`
 
-Run `/wave-preflight` to check your environment before starting.
+Run `/wave-orchestration:wave-preflight` to check your environment before starting.
 
 ## Patterns
 
@@ -159,8 +159,7 @@ wave-orchestration/
 │           └── patterns.md   # Orchestration patterns
 ├── hooks/
 │   ├── hooks.json            # Hook configuration
-│   └── scripts/
-│       └── stop-hook.sh      # Iteration loop hook
+│   └── stop-hook.sh          # Iteration loop hook
 └── scripts/
     ├── setup-wave.sh         # Initialization script
     ├── cancel-wave.sh        # Cancellation script
