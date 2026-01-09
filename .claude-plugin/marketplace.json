@@ -1,22 +1,13 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "wave-orchestration",
-  "description": "Wave Orchestration plugin for iterative parallel agent orchestration",
   "owner": {
-    "name": "Seth Ford",
-    "email": "seth@example.com"
+    "name": "Seth Ford"
   },
   "plugins": [
     {
       "name": "wave-orchestration",
-      "description": "Iterative parallel orchestration combining Ralph Loop iteration with swarm agent parallelism. Spawns waves of agents, synthesizes results, and iterates until completion.",
-      "author": {
-        "name": "Seth Ford",
-        "email": "seth@example.com"
-      },
-      "source": ".",
-      "category": "development",
-      "homepage": "https://github.com/sethdford/wave-orchestration"
+      "source": "./",
+      "description": "Iterative parallel orchestration combining Ralph Loop iteration with swarm agent parallelism. Spawns waves of agents, synthesizes results, and iterates until completion."
     }
   ]
 }
