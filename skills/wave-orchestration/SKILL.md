@@ -3,6 +3,12 @@ name: Wave Orchestration
 description: |
   This skill should be used when the user asks to "orchestrate tasks", "run parallel agents", "wave orchestration", "iterative agent loops", "swarm agents", "coordinate multiple agents", or needs guidance on decomposing complex tasks into parallel workstreams with iterative refinement.
 version: 1.0.0
+auto-trigger:
+  - pattern: "wave"
+  - pattern: "orchestrat"
+  - pattern: "parallel agents"
+  - pattern: "swarm"
+  - pattern: "ralph loop"
 ---
 
 # Wave Orchestration Skill
