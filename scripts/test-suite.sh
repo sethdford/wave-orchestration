@@ -3,6 +3,8 @@
 # Wave Orchestration Test Suite
 # Comprehensive tests for all components
 
+set -euo pipefail
+
 #######################################
 # Test configuration
 #######################################
